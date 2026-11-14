@@ -15,6 +15,30 @@
         </a>
     </div>
 
+
+    <!-- Search Books -->
+    <form action="{{ route('books.index') }}" method="GET"
+          class="mb-6 bg-white p-4 rounded-lg shadow-sm flex flex-col md:flex-row gap-3">
+
+        <input
+            type="text"
+            name="search"
+            value="{{ request('search') }}"
+            placeholder="Search by book title or author..."
+            class="flex-1 border border-gray-300 rounded-lg px-4 py-2"
+        >
+
+        <button type="submit"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-semibold">
+            Search
+        </button>
+
+        <a href="{{ route('books.index') }}"
+           class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2 rounded-lg text-center">
+            Clear
+        </a>
+    </form>
+
     <div class="mb-6 bg-white p-4 rounded-lg shadow-sm">
         <span class="font-semibold text-gray-700 mr-2">Filter by Genre:</span>
 
@@ -84,7 +108,12 @@
         <div class="bg-white p-8 rounded-lg shadow-sm text-center text-gray-500">
             No books found in this catalog view.
         </div>
-    @endif
+        @endif
+
+    <!-- Pagination Links -->
+    <div class="mt-8">
+        {{ $books->links() }}
+    </div>
 
 </div>
 

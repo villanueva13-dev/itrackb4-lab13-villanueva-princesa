@@ -10,22 +10,69 @@ use Illuminate\Support\Facades\Log;
 
 class BookController extends Controller
 {
-    public function index(Request $request)
+    
+
+public function index(Request $request)
 {
     $query = Book::with('genre');
 
+    // Search by book title or author
+    $search = $request->query('search');
+
+    if ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->where('title', 'like', "%{$search}%")
+              ->orWhere('author', 'like', "%{$search}%");
+        });
+    }
+
+    // Filter by genre
     $genreId = $request->query('genre_id');
 
     if ($genreId) {
         $query->where('genre_id', $genreId);
     }
 
+    // Allow only approved sorting columns
+    $allowedSorts = ['title', 'author', 'year', 'price'];
+
+    $sort = $request->query('sort', 'title');
+
+    if (!in_array($sort, $allowedSorts)) {
+        $sort = 'title';
+    }
+
+    $direction = $request->query('direction', 'asc');
+
+    if (!in_array($direction, ['asc', 'desc'])) {
+        $direction = 'asc';
+    }
+
+    $query->orderBy($sort, $direction);
+
     $genres = Genre::all();
 
-    $books = $query->get();
+    $books = $query->paginate(10)->withQueryString();
 
-    return view('books.catalog', compact('books', 'genres', 'genreId'));
+    return view('books.catalog', compact(
+        'books',
+        'genres',
+        'genreId',
+        'search',
+        'sort',
+        'direction'
+    ));
 }
+
+
+
+public function create()
+{
+    $genres = Genre::all();
+
+    return view('books.create', compact('genres'));
+}
+
     public function store(Request $request)
     {
         $validated = $request->validate([

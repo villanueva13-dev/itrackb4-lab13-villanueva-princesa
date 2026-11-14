@@ -71,3 +71,73 @@ Using `Log::info()` with the book ID helps identify which book record was saved 
 
 ### 3. Handling Errors
 A 403 error is appropriate when a user is not allowed to perform an action, such as deleting the last book in a genre. A redirect with a message is more suitable for ordinary recoverable form or input errors because the user can correct the information and try again.
+
+
+
+---
+
+# ITRACKB4 Laboratory Activity 13 — Open the Front Door
+
+## Project Subject
+
+This project uses **Books** as its subject. It demonstrates a Laravel BookTracker application with a homepage, navigation menu, live database counts, search, filtering, sorting, and pagination.
+
+## Features
+
+- **Homepage:** Displays a welcome message and student profile.
+- **Live Counts:** Shows the total number of books and genres.
+- **Profile Photo:** Displays the developer's photo on the homepage.
+- **Navigation:** Provides responsive navigation links for Home and Books.
+- **Book Catalog:** Displays available book records with their genre information.
+- **Pagination:** Shows 10 books per page.
+- **Search:** Allows users to search by book title or author.
+- **Genre Filter:** Allows users to filter books by genre.
+- **Sorting:** Supports approved sorting columns: title, author, year, and price.
+- **Invalid Sort Handling:** Uses the default title sorting when an unsupported sort value is provided.
+- **CRUD Operations:** Allows users to create, view, update, and delete book records.
+
+## Database
+
+The project uses two related tables:
+
+- `books` — stores book information.
+- `genres` — stores the available book genres.
+
+Each book is connected to a genre through the `genre_id` foreign key.
+
+## Running the Project
+
+1. Clone or download the repository.
+2. Open the project folder in the terminal.
+3. Install the dependencies:
+
+   ```bash
+   composer install
+   ```
+
+4. Configure the database in the `.env` file.
+5. Run the migrations:
+
+   ```bash
+   php artisan migrate
+   ```
+
+6. Seed the database:
+
+   ```bash
+   php artisan db:seed --class=BookSeeder
+   ```
+
+7. Start the Laravel development server:
+
+   ```bash
+   php artisan serve
+   ```
+
+8. Open `http://127.0.0.1:8000` in your browser.
+
+## Search, Filter, Sorting, and Pagination
+
+The BookTracker catalog supports searching by title or author and filtering by genre. Users can sort records using the approved columns: `title`, `author`, `year`, and `price`.
+
+Pagination displays 10 records per page and preserves the current query parameters when navigating between pages.
